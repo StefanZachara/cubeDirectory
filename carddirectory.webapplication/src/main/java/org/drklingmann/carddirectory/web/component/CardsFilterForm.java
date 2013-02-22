@@ -136,7 +136,7 @@ public class CardsFilterForm extends Form<FilterResults> {
 					info(String.format("Set chosen is: %s (id %d)", filter.getSet().getName(), filter.getSet().getId()));
 				} else {
 					System.out.println("Input was: " + setTextField.getInput());
-					warn("Sth went wrong!");
+					warn("Sth went wrong - test!");
 					info("Input was: " + setTextField.getInput());
 				}
 				target.add(feedback);
