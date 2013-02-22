@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+	xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+<head>
+	<wicket:head>
+		<title>Item Directory v0.1</title>
+		<style type="text/css">
+			.ui-autocomplete {
+				max-height: 200px;
+				overflow-y: auto;
+				overflow-x: hidden;
+				padding-right: 20px;
+			}	
+		</style>
+    </wicket:head>
+</head>
+<body>
+	<wicket:extend>
+		<h1 wicket:id="helloLabel"></h1>
+		<span wicket:id="currentTime"></span>
+		<br/>
+		<br/>
+		Number of user in database: <span wicket:id="numberOfUsers"/> 
+		<br/>
+
+		<form wicket:id="filterForm">
+			<div>Min Price:<input wicket:id="minPrice" type="number" size="5"></input>
+				 Max Price:<input wicket:id="maxPrice" type="number" size="5"></input></div>
+			<br/>
+			<div>Min Cube use:<input wicket:id="minUse" type="number" size="3"></input>
+				 Max Cube use:<input wicket:id="maxUse" type="number" size="3"></input></div>
+			<br/>
+			<div>Set:<input wicket:id="set" type="text" size="30"></input></div>
+			<br/>
+			<div>Color:
+				<select wicket:id="color" name="color">
+					<option value="white">White</option>
+					<option value="blue">Blue</option>
+				</select>
+			</div>
+			<br/>
+			<div>Rarity:
+				<select wicket:id="rarity" name="rarity">
+					<option value="rare">Rare</option>
+					<option value="common">Common</option>
+				</select>
+			</div>			
+			<button wicket:id="search" type="submit">Check set.</button>
+			<br/><br/>
+			<div wicket:id="feedback" style="widtch: 360px;"></div>
+		</form>
+		<a href="#" wicket:id="fillVersionPrices">Nowe ceny</a><br/>
+		<a href="#" wicket:id="goToCubeNeeds">Cubowe potrzeby</a><br/>
+		<a href="#" wicket:id="getCardUseInCube">Ładuj Wacławie, ładuj!!</a><br/>
+		<a href="#" wicket:id="getSets">Load sets to database</a><br/>
+		<a href="#" wicket:id="fillMinimalPricesForCards">Podatek!!</a><br/><br/><br/>
+	</wicket:extend>
+</body>
+</html>

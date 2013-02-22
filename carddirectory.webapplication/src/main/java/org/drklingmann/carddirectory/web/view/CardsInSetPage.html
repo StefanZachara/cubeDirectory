@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+	xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+<head>
+	<wicket:head>
+		<title>Item Directory v0.1</title>
+    </wicket:head>
+</head>
+<body>
+	<wicket:extend>
+		<form wicket:id="importCards">
+			<p>
+			<input type="number" wicket:id="initial"/>
+			<input type="number" wicket:id="final"/>
+			<p>
+			<input type="submit" value="Submit" id="formsubmit"/>
+		</form>
+		<h1 wicket:id="set">Jakis set</h1>
+	
+		<wicket:fragment wicket:id="cards"></wicket:fragment>
+		<!-- <table>
+			<tr wicket:id="cards">
+					<td wicket:id="name">1/1/2004</td>
+					<td wicket:id="color">WHITE</td>
+			</tr>
+		</table> -->
+	
+	</wicket:extend>
+</body>
+</html>
