@@ -13,6 +13,8 @@ import javax.persistence.UniqueConstraint;
 
 import org.drklingmann.carddirectory.domain.entities.game.Card;
 
+import com.mysema.query.annotations.QueryInit;
+
 @javax.persistence.Entity
 @Table(name = "cube_card_use",
 	   uniqueConstraints=
@@ -26,6 +28,7 @@ public class CubeCardUse implements Serializable {
 	
 	@ManyToOne(optional = false)
 	@JoinColumn(name="cardId")
+	@QueryInit("price")
 	private Card card;
 	 
     @Column(nullable=false)

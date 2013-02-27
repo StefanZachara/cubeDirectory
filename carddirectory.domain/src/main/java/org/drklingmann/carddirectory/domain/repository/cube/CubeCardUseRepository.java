@@ -8,11 +8,12 @@ import org.drklingmann.carddirectory.domain.entities.game.Card;
 import org.drklingmann.carddirectory.domain.entities.game.Color;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly = true)
 public interface CubeCardUseRepository extends
-		JpaRepository<CubeCardUse, Long> {
+		JpaRepository<CubeCardUse, Long>, QueryDslPredicateExecutor<CubeCardUse> {
 	
 	CubeCardUse findByVersionAndCard(Integer version, Card card);
 	

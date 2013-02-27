@@ -5,6 +5,7 @@ import java.util.List;
 import org.drklingmann.carddirectory.domain.entities.cube.CardWithSaturationAndUse;
 import org.drklingmann.carddirectory.domain.entities.game.Card;
 import org.drklingmann.carddirectory.domain.entities.game.Color;
+import org.drklingmann.carddirectory.domain.entities.game.Set;
 
 public interface CardService {
 
@@ -33,4 +34,8 @@ public interface CardService {
 	public List<CardWithSaturationAndUse> getCubeCardsSorted(int lower, int upper);
 
 	public List<CardWithSaturationAndUse> getCubeCardsSorted(String rarity);
+
+	public List<CardWithSaturationAndUse> getCardsFromFilter(Set set, Color color,
+			Float minPrice, Float maxPrice, Integer minUse, Integer maxUse,
+			String rarity);
 }

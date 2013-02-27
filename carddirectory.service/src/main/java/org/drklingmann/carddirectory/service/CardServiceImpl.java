@@ -7,8 +7,11 @@ import java.util.List;
 import org.drklingmann.carddirectory.domain.entities.cube.CardInCube;
 import org.drklingmann.carddirectory.domain.entities.cube.CardWithSaturationAndUse;
 import org.drklingmann.carddirectory.domain.entities.cube.CubeCardUse;
+import org.drklingmann.carddirectory.domain.entities.cube.QCubeCardUse;
 import org.drklingmann.carddirectory.domain.entities.game.Card;
 import org.drklingmann.carddirectory.domain.entities.game.Color;
+import org.drklingmann.carddirectory.domain.entities.game.QCardInSet;
+import org.drklingmann.carddirectory.domain.entities.game.Set;
 import org.drklingmann.carddirectory.domain.entities.market.ModelPrice;
 import org.drklingmann.carddirectory.domain.repository.cube.CardInCubeRepository;
 import org.drklingmann.carddirectory.domain.repository.cube.CubeCardUseRepository;
@@ -18,6 +21,8 @@ import org.drklingmann.carddirectory.domain.repository.market.ModelPriceReposito
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.mysema.query.BooleanBuilder;
 
 @Service(value = "cardService")
 @Transactional(rollbackFor = Exception.class)
@@ -91,6 +96,29 @@ public class CardServiceImpl implements CardService {
 		
 	}
 
+	@Override
+	public List<CardWithSaturationAndUse> getCardsFromFilter(Set set, Color color, Float minPrice, Float maxPrice, Integer minUse, Integer maxUse, String rarity){
+		QCubeCardUse use = QCubeCardUse.cubeCardUse;
+		QCardInSet cardInSet = use.card.cardInSetCollection.any();
+		BooleanBuilder filter = new BooleanBuilder();
+		filter = filter.and(use.version.eq(130128));
+		if(set!=null)
+			filter = filter.and(cardInSet.set.eq(set));
+		if(color!=null)
+			filter = filter.and(use.card.color.eq(color));
+		if(minPrice!=null)
+			filter = filter.and(use.card.price.low.goe(minPrice));
+		if(maxPrice!=null)
+			filter = filter.and(use.card.price.low.loe(maxPrice));
+		if(minUse!=null)
+			filter = filter.and(use.cardUse.goe(minUse));
+		if(maxUse!=null)
+			filter = filter.and(use.cardUse.loe(maxUse));
+		if(rarity!=null&&!rarity.equals(""))
+			filter = filter.and(cardInSet.rarity.eq(rarity));
+		return getNeededCards(cubeCardUserepo.findAll(filter));
+	}
+	
 	@SuppressWarnings("unused")
 	private static double logarytm = 1.2;//10;//2;
 //	private static double dodawane = 5.64;//1.7;//5.64;
@@ -100,7 +128,7 @@ public class CardServiceImpl implements CardService {
 		List<CubeCardUse> cardUses = cubeCardUserepo.findAllEagerFetchCard(130128);
 		return getNeededCards(cardUses);
 	}
-	public List<CardWithSaturationAndUse> getNeededCards(List<CubeCardUse> cardUses) {
+	public List<CardWithSaturationAndUse> getNeededCards(Iterable<CubeCardUse> cardUses) {
 		List<CardWithSaturationAndUse> cws = new ArrayList<CardWithSaturationAndUse>();
 		for (CubeCardUse cubeCardUse : cardUses) {
 			CardWithSaturationAndUse c = new CardWithSaturationAndUse();
@@ -111,7 +139,9 @@ public class CardServiceImpl implements CardService {
 			Integer saturation = countIntSaturation(cubeCardUse.getCard().getPrice(), cubeCardUse.getCardUse());
 			c.setSaturationNumber(saturation);
 			c.setSaturation(getHexSaturation(saturation));
-			cws.add(c);
+			System.out.println(c.getName()+ " "+c.getUse());
+			if(!cws.contains(c))
+				cws.add(c);
 		}
 		Collections.sort(cws);
 		return cws;		

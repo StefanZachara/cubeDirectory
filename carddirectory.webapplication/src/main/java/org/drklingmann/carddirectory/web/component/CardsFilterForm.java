@@ -13,8 +13,12 @@ import org.apache.wicket.markup.html.form.validation.AbstractFormValidator;
 import org.apache.wicket.markup.html.form.validation.IFormValidator;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.spring.injection.annot.SpringBean;
+import org.drklingmann.carddirectory.domain.entities.cube.CardWithSaturationAndUse;
 import org.drklingmann.carddirectory.domain.entities.game.Color;
+import org.drklingmann.carddirectory.service.CardService;
 import org.drklingmann.carddirectory.utiltempclassess.FilterResults;
+import org.drklingmann.carddirectory.web.view.CubeNeedsPage;
 
 import com.googlecode.wicket.jquery.ui.form.button.AjaxButton;
 import com.googlecode.wicket.jquery.ui.panel.JQueryFeedbackPanel;
@@ -22,6 +26,9 @@ import com.googlecode.wicket.jquery.ui.panel.JQueryFeedbackPanel;
 public class CardsFilterForm extends Form<FilterResults> {
 
 	private static final long serialVersionUID = 1L;
+	
+	@SpringBean
+	private CardService cardService;
 
 	static final List<String> RARITIES = Arrays.asList(
 			"Common",
@@ -129,14 +136,24 @@ public class CardsFilterForm extends Form<FilterResults> {
 			@Override
 			protected void onSubmit(AjaxRequestTarget target, Form<?> unused) {
 				FilterResults filter = (FilterResults) getMe().getModelObject();
-				if(filter.getSet()!=null){
-					System.out.println(String.format("Set chosen is: %s (id %d)", filter.getSet().getName(), filter.getSet().getId()));
-					info(String.format("Set chosen is: %s (id %d)", filter.getSet().getName(), filter.getSet().getId()));
-				} else {
-					System.out.println("Input was: " + setTextField.getInput());
-					warn("Sth went wrong - test2!");
-					info("Input was: " + setTextField.getInput());
-				}
+				List<CardWithSaturationAndUse> cardList = 
+						cardService.getCardsFromFilter(
+								filter.getSet(), 
+								filter.getColor(), 
+								filter.getMinPrice(), 
+								filter.getMaxPrice(), 
+								filter.getMinUse(), 
+								filter.getMaxUse(), 
+								filter.getRarity());
+				setResponsePage(new CubeNeedsPage(cardList));	
+//				if(filter.getSet()!=null){
+//					System.out.println(String.format("Set chosen is: %s (id %d)", filter.getSet().getName(), filter.getSet().getId()));
+//					info(String.format("Set chosen is: %s (id %d)", filter.getSet().getName(), filter.getSet().getId()));
+//				} else {
+//					System.out.println("Input was: " + setTextField.getInput());
+//					warn("Sth went wrong - test2!");
+//					info("Input was: " + setTextField.getInput());
+//				}
 				target.add(feedback);
 			}
 		});
