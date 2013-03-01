@@ -7,6 +7,7 @@ import java.util.List;
 import org.drklingmann.carddirectory.domain.entities.cube.CardInCube;
 import org.drklingmann.carddirectory.domain.entities.cube.CardWithSaturationAndUse;
 import org.drklingmann.carddirectory.domain.entities.cube.CubeCardUse;
+import org.drklingmann.carddirectory.domain.entities.cube.QCardInCube;
 import org.drklingmann.carddirectory.domain.entities.cube.QCubeCardUse;
 import org.drklingmann.carddirectory.domain.entities.game.Card;
 import org.drklingmann.carddirectory.domain.entities.game.Color;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mysema.query.BooleanBuilder;
+import com.mysema.query.jpa.impl.JPASubQuery;
 
 @Service(value = "cardService")
 @Transactional(rollbackFor = Exception.class)
@@ -100,8 +102,11 @@ public class CardServiceImpl implements CardService {
 	public List<CardWithSaturationAndUse> getCardsFromFilter(Set set, Color color, Float minPrice, Float maxPrice, Integer minUse, Integer maxUse, String rarity){
 		QCubeCardUse use = QCubeCardUse.cubeCardUse;
 		QCardInSet cardInSet = use.card.cardInSetCollection.any();
+		QCardInCube cardInCube = QCardInCube.cardInCube;
 		BooleanBuilder filter = new BooleanBuilder();
 		filter = filter.and(use.version.eq(130128));
+		JPASubQuery sQuery = new JPASubQuery().from(cardInCube);
+		filter = filter.and(use.card.notIn(sQuery.list(cardInCube.card)));
 		if(set!=null)
 			filter = filter.and(cardInSet.set.eq(set));
 		if(color!=null)

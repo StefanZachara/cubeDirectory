@@ -18,7 +18,7 @@ import org.drklingmann.carddirectory.domain.entities.cube.CardWithSaturationAndU
 import org.drklingmann.carddirectory.domain.entities.game.Color;
 import org.drklingmann.carddirectory.service.CardService;
 import org.drklingmann.carddirectory.utiltempclassess.FilterResults;
-import org.drklingmann.carddirectory.web.view.CubeNeedsPage;
+import org.drklingmann.carddirectory.web.view.HomePage;
 
 import com.googlecode.wicket.jquery.ui.form.button.AjaxButton;
 import com.googlecode.wicket.jquery.ui.panel.JQueryFeedbackPanel;
@@ -29,6 +29,8 @@ public class CardsFilterForm extends Form<FilterResults> {
 	
 	@SpringBean
 	private CardService cardService;
+	
+	private CubeNeedsPanel needsPanel;
 
 	static final List<String> RARITIES = Arrays.asList(
 			"Common",
@@ -38,8 +40,9 @@ public class CardsFilterForm extends Form<FilterResults> {
 			"Special"
 			);
 	
-	public CardsFilterForm(String id, FilterResults filter) {
+	public CardsFilterForm(String id, FilterResults filter, CubeNeedsPanel panel) {
 		super(id,new CompoundPropertyModel<FilterResults>(filter));
+		needsPanel=panel;
 		final FeedbackPanel feedback = new JQueryFeedbackPanel("feedback");
 		this.add(feedback.setOutputMarkupId(true));
 		final DropDownChoice<Color> colorDropDown = new DropDownChoice<Color>("color", Arrays.asList(Color.values()));
@@ -145,7 +148,10 @@ public class CardsFilterForm extends Form<FilterResults> {
 								filter.getMinUse(), 
 								filter.getMaxUse(), 
 								filter.getRarity());
-				setResponsePage(new CubeNeedsPage(cardList));	
+				needsPanel.setCardList(cardList);
+				setResponsePage(new HomePage(cardList));	
+				
+				
 //				if(filter.getSet()!=null){
 //					System.out.println(String.format("Set chosen is: %s (id %d)", filter.getSet().getName(), filter.getSet().getId()));
 //					info(String.format("Set chosen is: %s (id %d)", filter.getSet().getName(), filter.getSet().getId()));
@@ -154,6 +160,7 @@ public class CardsFilterForm extends Form<FilterResults> {
 //					warn("Sth went wrong - test2!");
 //					info("Input was: " + setTextField.getInput());
 //				}
+				target.add(needsPanel);
 				target.add(feedback);
 			}
 		});

@@ -32,7 +32,7 @@ public class CubeNeedsListView extends ListView<CardWithSaturationAndUse> {
 		item.add(new AttributeModifier("bgcolor", card.getSaturation()));
 		item.add(new Label("name", card.getName()));
 		item.add(new Label("color", card.getColor().toString()));
-		item.add(new Label("rarity", card.getRarity()));
+		//item.add(new Label("rarity", card.getRarity()));
 		if(card.getPrice()!=null)
 			item.add(new Label("price", card.getPrice().getLow().toString()));
 		else

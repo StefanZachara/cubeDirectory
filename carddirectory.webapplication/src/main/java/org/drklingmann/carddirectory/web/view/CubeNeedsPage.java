@@ -16,25 +16,33 @@ public class CubeNeedsPage extends BasePage {
 	private CardService cardService;
 	
 	private List<CardWithSaturationAndUse> cardUseList;
+	
+	private CubeNeedsPanel needsPanel = new CubeNeedsPanel("cardList",cardUseList);
 
-	public CubeNeedsPage() {
-//		if(sorted)
-//			cardUseList = cardService.getNeededCardsSortedByUse();
-//		else
-			cardUseList = cardService.getNeededCardsNotSorted();
-		initGui();
-	}
+//	public CubeNeedsPage() {
+////		if(sorted)
+////			cardUseList = cardService.getNeededCardsSortedByUse();
+////		else
+//			cardUseList = cardService.getNeededCardsNotSorted();
+//		initGui();
+//	}
 	
 	public CubeNeedsPage(List<CardWithSaturationAndUse> cardUseList) {
 //		if(sorted)
 //			cardUseList = cardService.getNeededCardsSortedByUse();
 //		else
+		super(cardUseList);
 			this.cardUseList = cardUseList;
 		initGui();
 	}
 
 	private void initGui() {
-		add(new CubeNeedsPanel("cardList",cardUseList));
+		add(needsPanel);
 		
+	}
+
+	@Override
+	protected CubeNeedsPanel getListPanel(List<CardWithSaturationAndUse> cardUseList) {
+		return needsPanel;
 	}
 }

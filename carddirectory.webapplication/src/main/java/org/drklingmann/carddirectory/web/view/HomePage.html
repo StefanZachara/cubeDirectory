@@ -23,37 +23,13 @@
 		Number of user in database: <span wicket:id="numberOfUsers"/> 
 		<br/>
 
-		<form wicket:id="filterForm">
-			<div>Min Price:<input wicket:id="minPrice" type="number" size="5"></input>
-				 Max Price:<input wicket:id="maxPrice" type="number" size="5"></input></div>
-			<br/>
-			<div>Min Cube use:<input wicket:id="minUse" type="number" size="3"></input>
-				 Max Cube use:<input wicket:id="maxUse" type="number" size="3"></input></div>
-			<br/>
-			<div>Set:<input wicket:id="set" type="text" size="30"></input></div>
-			<br/>
-			<div>Color:
-				<select wicket:id="color" name="color">
-					<option value="white">White</option>
-					<option value="blue">Blue</option>
-				</select>
-			</div>
-			<br/>
-			<div>Rarity:
-				<select wicket:id="rarity" name="rarity">
-					<option value="rare">Rare</option>
-					<option value="common">Common</option>
-				</select>
-			</div>			
-			<button wicket:id="search" type="submit">Check set.</button>
-			<br/><br/>
-			<div wicket:id="feedback" style="widtch: 360px;"></div>
-		</form>
 		<a href="#" wicket:id="fillVersionPrices">Nowe ceny</a><br/>
 		<a href="#" wicket:id="goToCubeNeeds">Cubowe potrzeby</a><br/>
 		<a href="#" wicket:id="getCardUseInCube">Ładuj Wacławie, ładuj!!</a><br/>
 		<a href="#" wicket:id="getSets">Load sets to database</a><br/>
 		<a href="#" wicket:id="fillMinimalPricesForCards">Podatek!!</a><br/><br/><br/>
+		
+		<wicket:fragment wicket:id="cardList">Panel z lista</wicket:fragment>
 	</wicket:extend>
 </body>
 </html>

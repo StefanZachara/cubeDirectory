@@ -4,26 +4,26 @@
 <body>
 	<wicket:panel>
 	
-		<table>
-			<th>Nazwa</th>
-			<th>Kolor</th>
-			<th>Cena ($)</th>
-			<th>Użycie (%)</th>
-			<th>Rarity</th>
+		<table><tbody>
+			<tr>
+				<th>Nazwa</th>
+				<th>Kolor</th>
+				<th>Cena ($)</th>
+				<th>Użycie (%)</th>
+			</tr>
 			<!--<th></th>-->
 			<tr wicket:id="cardList">
 					<td class='gatherer' wicket:id="name">1/1/2004</td>
 					<td wicket:id="color">WHITE</td>
 					<td wicket:id="price">1.34</td>
 					<td wicket:id="use">100</td>
-					<td wicket:id="rarity">COMMON</td>
 					<td>
 						<form wicket:id="addCardToMyCube">
 							<input type="submit" value="Submit" id="formsubmit"/>
 						</form>
 					</td>
 			</tr>
-		</table>
+		</tbody></table>
 	
 	</wicket:panel>
 </body>

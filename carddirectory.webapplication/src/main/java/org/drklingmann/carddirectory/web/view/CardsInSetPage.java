@@ -1,5 +1,6 @@
 package org.drklingmann.carddirectory.web.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
@@ -27,7 +28,10 @@ public class CardsInSetPage extends BasePage {
 	
 	private List<CardWithSaturationAndUse> cardUseList;
 	
+	private CubeNeedsPanel needsPanel = new CubeNeedsPanel("cards", cardUseList);
+	
 	public CardsInSetPage(Set set) {
+		super(new ArrayList<CardWithSaturationAndUse>());
 //		cardList = cardService.findAllFromSet(set.getName());
 //		cardUseList = cardService.findAllCubeNeedsFromSet(set.getName());
 		cardUseList = cardService.findAllCubeNeedsFromSetSorted(set.getName());
@@ -38,7 +42,7 @@ public class CardsInSetPage extends BasePage {
 		add(new GetNewCardsForm("importCards", set));
 		add(new Label("set", set.getName()));
 		
-		add(new CubeNeedsPanel("cards", cardUseList));
+		add(needsPanel);
 //		add(new PropertyListView<Card>("cards",cardList){
 //			@Override
 //			protected void populateItem(ListItem<Card> item) {
@@ -66,5 +70,10 @@ public class CardsInSetPage extends BasePage {
 			
 //			cardList = cardService.findAll();
 		}
+	}
+
+	@Override
+	protected CubeNeedsPanel getListPanel(List<CardWithSaturationAndUse> cardUseList) {
+		return needsPanel;
 	}
 }
